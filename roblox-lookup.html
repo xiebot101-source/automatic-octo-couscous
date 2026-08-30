@@ -9,105 +9,98 @@
           --gold:#ffd700; --green:#2ea043; --red:#f85149; --text:#e6edf3; }
   * { margin:0; padding:0; box-sizing:border-box; font-family:system-ui,sans-serif; }
   body { background:var(--bg); color:var(--text); }
-
-  /* ---- banners ---- */
-  .banner { padding:14px; text-align:center; font-weight:bold;
-            background:linear-gradient(90deg,#1f6feb,#a371f7); }
-  .banner.alt { background:linear-gradient(90deg,#238636,#2ea043); }
-  .banner h2 { font-size:1.25rem; }
-  .banner p { font-size:.8rem; opacity:.9; font-weight:normal; }
-
   header { padding:18px; text-align:center; background:var(--card);
            border-bottom:1px solid var(--border); }
-  section { padding:30px 20px; max-width:1100px; margin:auto; }
-  .section-title { color:var(--accent); margin-bottom:16px; }
+  section { padding:26px 20px; max-width:1100px; margin:auto; }
+  .section-title { color:var(--accent); margin-bottom:14px; }
 
-  /* ---- values grid ---- */
-  .tier { margin-top:20px; }
-  .tier h4 { color:var(--gold); margin-bottom:10px; }
-  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:10px; }
+  /* search bar */
+  #search { width:100%; max-width:400px; padding:10px 14px; margin-bottom:16px;
+            background:var(--card); border:1px solid var(--border); border-radius:8px;
+            color:var(--text); font-size:.9rem; }
+
+  /* values grid */
+  .tier h4 { color:var(--gold); margin:14px 0 8px; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(130px,1fr)); gap:8px; }
   .item { background:var(--card); border:1px solid var(--border); border-radius:8px;
           padding:10px; text-align:center; cursor:pointer; transition:.15s; }
   .item:hover { border-color:var(--accent); transform:translateY(-2px); }
   .item .name { font-size:.8rem; margin:4px 0; }
-  .item .val { color:var(--gold); font-weight:bold; }
+  .item .val { color:var(--gold); font-weight:bold; font-size:.85rem; }
 
-  /* ================= SWAP SECTION (jacevalues-style layout) ================= */
-  #swap-section { text-align:center; }
-  .swap-rule { color:#8b949e; font-size:.85rem; margin-bottom:16px; }
-  .swap-row { display:flex; justify-content:center; align-items:center;
-              gap:14px; flex-wrap:wrap; }
+  /* swap */
+  .swap-rule { color:#8b949e; font-size:.85rem; margin-bottom:14px; text-align:center; }
+  .swap-row { display:flex; justify-content:center; align-items:center; gap:14px; flex-wrap:wrap; }
   .side { background:var(--card); border:2px solid var(--border); border-radius:12px;
-          padding:14px; width:320px; min-height:200px; cursor:pointer; transition:.15s; }
+          padding:14px; width:320px; min-height:190px; cursor:pointer; transition:.15s; }
   .side.active { border-color:var(--accent); box-shadow:0 0 0 3px rgba(88,166,255,.2); }
-  .side h4 { margin-bottom:8px; letter-spacing:1px; }
-  .side .total { color:var(--gold); font-size:1.4rem; font-weight:bold; margin-bottom:10px; }
-  .slots { display:flex; flex-wrap:wrap; gap:6px; justify-content:center; min-height:56px; }
-  .slot { width:40px; height:40px; border:1px dashed var(--border); border-radius:8px;
-          display:flex; align-items:center; justify-content:center;
-          color:#8b949e; font-size:1.1rem; }
+  .side h4 { margin-bottom:6px; letter-spacing:1px; text-align:center; }
+  .side .total { color:var(--gold); font-size:1.35rem; font-weight:bold; margin-bottom:10px; text-align:center; }
+  .slots { display:flex; flex-wrap:wrap; gap:6px; justify-content:center; min-height:52px; }
+  .slot { width:38px; height:38px; border:1px dashed var(--border); border-radius:8px;
+          display:flex; align-items:center; justify-content:center; color:#8b949e; }
   .chip { background:#21262d; border:1px solid var(--border); border-radius:8px;
           padding:4px 8px; font-size:.72rem; cursor:pointer; transition:.15s; }
   .chip:hover { border-color:var(--red); }
   .arrow { font-size:2rem; color:var(--accent); font-weight:bold; cursor:pointer; }
-  .arrow:hover { transform:scale(1.15); }
-  .swap-btn { margin:20px auto 6px; padding:12px 60px; font-size:1rem; font-weight:bold;
-              background:var(--green); color:#fff; border:none; border-radius:8px; cursor:pointer; }
-  .swap-btn:hover { filter:brightness(1.15); }
-  .swap-msg { font-size:.85rem; min-height:20px; margin-top:6px; }
-  .swap-msg.bad { color:var(--red); }
-  .swap-msg.ok  { color:var(--green); }
-  .hint { color:#8b949e; font-size:.78rem; margin-top:10px; }
+  .swap-btn { display:block; margin:18px auto 6px; padding:12px 60px; font-size:1rem;
+              font-weight:bold; background:var(--green); color:#fff; border:none;
+              border-radius:8px; cursor:pointer; }
+  .swap-btn:disabled { opacity:.5; cursor:not-allowed; }
+  .swap-msg { font-size:.85rem; min-height:20px; margin-top:6px; text-align:center; }
+  .bad { color:var(--red); } .ok { color:var(--green); }
+  .hint { color:#8b949e; font-size:.75rem; margin-top:8px; text-align:center; }
 
-  footer { text-align:center; padding:20px; color:#8b949e; font-size:.8rem; }
+  /* status modal */
+  #overlay { position:fixed; inset:0; background:rgba(0,0,0,.7); display:none;
+             align-items:center; justify-content:center; z-index:50; }
+  #overlay.show { display:flex; }
+  .modal { background:var(--card); border:1px solid var(--border); border-radius:12px;
+           padding:26px 34px; text-align:center; max-width:340px; }
+  .spinner { width:36px; height:36px; border:4px solid var(--border); border-top-color:var(--accent);
+             border-radius:50%; margin:0 auto 14px; animation:spin .8s linear infinite; }
+  @keyframes spin { to { transform:rotate(360deg); } }
+  .modal .title { font-weight:bold; margin-bottom:6px; }
+  .modal .sub { color:#8b949e; font-size:.8rem; }
+
+  /* rating stars */
+  .stars { font-size:1.8rem; cursor:pointer; margin:10px 0; }
+  .stars span { color:#555; transition:.1s; }
+  .stars span.on { color:var(--gold); }
+  button.mini { margin-top:8px; padding:8px 24px; background:var(--accent); color:#0d1117;
+                font-weight:bold; border:none; border-radius:8px; cursor:pointer; }
 </style>
 </head>
 <body>
-
-<div class="banner">⚡ SYSTEM UPDATE
-  <h2>THE SWAP SYSTEM HAS ARRIVED</h2>
-  <p>Trade layout with live value totals — connect your own backend later.</p>
-</div>
-<div class="banner alt">📢 NEW ANNOUNCEMENT
-  <h2>WELCOME TO YOUR VALUES HUB</h2>
-  <p>Browse the value list and swap below.</p>
-</div>
 
 <header><h1>⬦ Your Site</h1></header>
 
 <section>
   <h3 class="section-title">VALUES</h3>
+  <input id="search" placeholder="🔍 Search items…" oninput="renderValues()">
   <div class="tier"><h4>Tier 5</h4><div class="grid" data-tier="5"></div></div>
   <div class="tier"><h4>Tier 4</h4><div class="grid" data-tier="4"></div></div>
   <div class="tier"><h4>Tier 1</h4><div class="grid" data-tier="1"></div></div>
 </section>
 
-<section id="swap-section">
-  <h3 class="section-title">SWAP</h3>
+<section>
+  <h3 class="section-title" style="text-align:center">SWAP</h3>
   <p class="swap-rule">Your value must be equal or greater than bot's value</p>
 
   <div class="swap-row">
-    <div class="side active" id="you">
-      <h4>YOU GIVE</h4>
-      <div class="total">💎 0</div>
-      <div class="slots"></div>
-    </div>
-
+    <div class="side active" id="you"><h4>YOU GIVE</h4><div class="total">💎 0</div><div class="slots"></div></div>
     <div class="arrow" title="Click to clear both sides">⇄</div>
-
-    <div class="side" id="bot">
-      <h4>BOT GIVE</h4>
-      <div class="total">💎 0</div>
-      <div class="slots"></div>
-    </div>
+    <div class="side" id="bot"><h4>BOT GIVE</h4><div class="total">💎 0</div><div class="slots"></div></div>
   </div>
 
-  <button class="swap-btn" onclick="doSwap()">SWAP</button>
+  <button class="swap-btn" id="swapBtn" onclick="doSwap()">SWAP</button>
   <div class="swap-msg" id="swapMsg"></div>
-  <p class="hint">Choose a side, then click an item above to add it · click a chip to remove it</p>
+  <p class="hint">Click a side to select it · click items above to add · stacks go up to x99 · click a chip to remove it</p>
 </section>
 
-<footer>Your footer text here</footer>
+<div id="overlay">
+  <div class="modal" id="modalBox"></div>
+</div>
 
 <script>
   // ---- EDIT YOUR DATA BELOW ----
@@ -116,63 +109,86 @@
     { name:"Sample Item C", val:980,  tier:4 }, { name:"Sample Item D", val:95,  tier:4 },
     { name:"Sample Item E", val:14,   tier:1 }
   ];
-  const MAX_PER_SIDE = 8;   // number of plus-slots per side (like their "++++")
+  const MAX_PER_SIDE = 8;  // capacity per side
+  const MAX_STACK   = 99;  // x1–x99 like jacevalues
   // -------------------------------
-
-  // build value grid
-  document.querySelectorAll(".grid").forEach(g => {
-    g.innerHTML = ITEMS.filter(i => i.tier == g.dataset.tier).map(i => `
-      <div class="item" onclick='addItem(${JSON.stringify(i)})'>
-        <div class="name">${i.name}</div>
-        <div class="val">💎 ${i.val.toLocaleString()}</div>
-      </div>`).join("");
-  });
 
   let activeSide = "you";
   const sides = { you: [], bot: [] };
+  const $ = id => document.getElementById(id);
 
-  // side selection + click to remove chips
-  ["you","bot"].forEach(id => document.getElementById(id).addEventListener("click", e => {
-    if (e.target.classList.contains("chip")) return;   // handled by chip's own handler
+  /* ---------- values grid (with search) ---------- */
+  function renderValues() {
+    const q = $("search").value.toLowerCase();
+    document.querySelectorAll(".grid").forEach(g => {
+      g.innerHTML = ITEMS
+        .filter(i => i.tier == g.dataset.tier)
+        .filter(i => i.name.toLowerCase().includes(q))
+        .map(i => `<div class="item" onclick='addItem(${JSON.stringify(i)})'>
+                     <div class="name">${i.name}</div>
+                     <div class="val">💎 ${i.val.toLocaleString()}</div>
+                   </div>`).join("");
+    });
+  }
+
+  /* ---------- side selection ---------- */
+  ["you","bot"].forEach(id => $(id).addEventListener("click", e => {
+    if (e.target.classList.contains("chip")) return;
     activeSide = id;
     render();
   }));
 
+  /* ---------- add with stacking x1–x99 ---------- */
   function addItem(item) {
-    if (sides[activeSide].length >= MAX_PER_SIDE) return;
-    sides[activeSide].push(item);
+    const list = sides[activeSide];
+    const existing = list.find(i => i.name === item.name);
+    if (existing) {
+      if (existing.stack >= MAX_STACK) { flash(`${item.name} is at max stack x${MAX_STACK}.`, "bad"); return; }
+      existing.stack++;
+    } else {
+      if (list.length >= MAX_PER_SIDE) { flash("This side is full.", "bad"); return; }
+      list.push({ ...item, stack: 1 });
+    }
     render();
   }
 
-  function removeItem(id, idx) {
-    sides[id].splice(idx, 1);
-    render();
-  }
+  function removeItem(id, idx) { sides[id].splice(idx, 1); render(); }
 
+  /* ---------- render swap UI ---------- */
   function render() {
     ["you","bot"].forEach(id => {
-      const el = document.getElementById(id);
+      const el = $(id);
       el.classList.toggle("active", id === activeSide);
-      el.querySelector(".total").textContent =
-        "💎 " + sides[id].reduce((a,i) => a + i.val, 0).toLocaleString();
-      const slots = el.querySelector(".slots");
+      const total = sideVal(id);
+      el.querySelector(".total").textContent = "💎 " + total.toLocaleString();
       let html = sides[id].map((i, idx) =>
         `<div class="chip" title="click to remove"
               onclick="event.stopPropagation();removeItem('${id}',${idx})">
-           ${i.name} 💎${i.val} ✕</div>`).join("");
-      for (let n = sides[id].length; n < MAX_PER_SIDE; n++)
+           ${i.name}${i.stack > 1 ? ` x${i.stack}` : ""} 💎${(i.val * i.stack).toLocaleString()} ✕</div>`).join("");
+      const capacity = sides[id].reduce((a, i) => a + i.stack, 0);
+      for (let n = Math.min(capacity, MAX_PER_SIDE); n < MAX_PER_SIDE; n++)
         html += `<div class="slot">＋</div>`;
-      slots.innerHTML = html;
+      el.querySelector(".slots").innerHTML = html;
     });
   }
+  const sideVal = id => sides[id].reduce((a, i) => a + i.val * i.stack, 0);
 
-  // swap validation — same rule as jacevalues: you >= bot
+  function flash(text, cls) {
+    const m = $("swapMsg"); m.className = "swap-msg " + cls; m.textContent = text;
+    clearTimeout(m._t); m._t = setTimeout(render, 2500);
+  }
+
+  /* ---------- modal helpers ---------- */
+  function showModal(html) { $("modalBox").innerHTML = html; $("overlay").classList.add("show"); }
+  function hideModal()     { $("overlay").classList.remove("show"); }
+
+  /* ---------- working swap flow ---------- */
   function doSwap() {
-    const msg = document.getElementById("swapMsg");
-    const youVal = sides.you.reduce((a,i) => a + i.val, 0);
-    const botVal = sides.bot.reduce((a,i) => a + i.val, 0);
+    const msg = $("swapMsg");
+    const youVal = sideVal("you"), botVal = sideVal("bot");
+    const btn = $("swapBtn");
 
-    if (sides.you.length === 0 && sides.bot.length === 0) {
+    if (youVal === 0 && botVal === 0) {
       msg.className = "swap-msg bad";
       msg.textContent = "Select items from the value list first.";
       return;
@@ -182,18 +198,56 @@
       msg.textContent = `Your value (💎${youVal.toLocaleString()}) is less than bot's (💎${botVal.toLocaleString()}).`;
       return;
     }
-    msg.className = "swap-msg ok";
-    msg.textContent = `Swap confirmed! YOU 💎${youVal.toLocaleString()} ⇄ BOT 💎${botVal.toLocaleString()}`;
-    // ---- connect your real backend function here ----
+
+    // validation passed → run the swap flow
+    btn.disabled = true;
+    msg.textContent = "";
+
+    showModal(`<div class="spinner"></div><div class="title">Searching for bot room…</div>
+               <div class="sub">Finding an available bot</div>`);
+
+    setTimeout(() => {   // simulated bot search
+      showModal(`<div class="title">✅ Bot room found!</div>
+                 <div class="sub">Bot online · executing swap…</div><div class="spinner"></div>`);
+    }, 1500);
+
+    setTimeout(() => {   // simulated swap execution
+      const gained = youVal - botVal;
+      sides.you = []; sides.bot = [];
+      render();
+      btn.disabled = false;
+      msg.className = "swap-msg ok";
+      msg.textContent = `Swap confirmed! YOU 💎${youVal.toLocaleString()} ⇄ BOT 💎${botVal.toLocaleString()}` +
+                        (gained > 0 ? ` (+💎${gained.toLocaleString()} surplus accepted)` : "");
+      showRating();
+      // ---- connect your real backend (WebSocket / trade API) here ----
+    }, 3000);
   }
 
-  // click ⇄ to reset both sides
+  /* ---------- rate-us modal (all local) ---------- */
+  function showRating() {
+    let stars = 0;
+    showModal(`<div class="title">Swap complete! ⭐</div>
+      <div class="sub">Did you enjoy the swap?</div>
+      <div class="stars" id="stars">${[1,2,3,4,5].map(n => `<span data-n="${n}">★</span>`).join("")}</div>
+      <button class="mini" onclick="hideModal()">Done</button>`);
+    $("stars").addEventListener("click", e => {
+      if (e.target.dataset.n) {
+        stars = +e.target.dataset.n;
+        $("stars").querySelectorAll("span").forEach(s =>
+          s.classList.toggle("on", +s.dataset.n <= stars));
+      }
+    });
+  }
+
+  /* ---------- ⇄ resets both sides ---------- */
   document.querySelector(".arrow").addEventListener("click", () => {
     sides.you = []; sides.bot = [];
-    document.getElementById("swapMsg").textContent = "";
+    $("swapMsg").textContent = "";
     render();
   });
 
+  renderValues();
   render();
 </script>
 </body>

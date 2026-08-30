@@ -3,274 +3,129 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Roblox Profile Lookup</title>
+<title>Enter Your Name</title>
 <style>
-  :root {
-    --bg: #0f1115;
-    --card: #171a21;
-    --card-border: #262a33;
-    --text: #eef0f3;
-    --muted: #9aa1ac;
-    --accent: #00a2ff;
-    --accent-dark: #0077bb;
-    --danger: #ff5c5c;
-    --radius: 12px;
-  }
   * { box-sizing: border-box; }
   body {
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    background: var(--bg);
-    color: var(--text);
     min-height: 100vh;
-    padding: 40px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: linear-gradient(135deg, #5865F2, #23272A);
   }
-  .wrap { max-width: 760px; margin: 0 auto; }
-  h1 { font-size: 26px; font-weight: 600; margin: 0 0 6px; }
-  .sub { color: var(--muted); font-size: 14px; margin: 0 0 28px; }
-  .search-row { display: flex; gap: 10px; margin-bottom: 24px; }
-  input[type="text"] {
-    flex: 1;
-    background: var(--card);
-    border: 1px solid var(--card-border);
-    color: var(--text);
-    padding: 12px 14px;
-    border-radius: var(--radius);
-    font-size: 15px;
-    outline: none;
+  .card {
+    background: #2C2F33;
+    padding: 40px 32px;
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+    width: 100%;
+    max-width: 380px;
+    text-align: center;
   }
-  input[type="text"]:focus { border-color: var(--accent); }
-  button {
-    background: var(--accent);
-    border: none;
+  h1 {
     color: #fff;
-    padding: 12px 20px;
-    border-radius: var(--radius);
+    font-size: 22px;
+    margin-bottom: 8px;
+  }
+  p {
+    color: #b9bbbe;
+    font-size: 14px;
+    margin-bottom: 24px;
+  }
+  input {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    font-size: 15px;
+    margin-bottom: 16px;
+    background: #40444B;
+    color: #fff;
+  }
+  input::placeholder { color: #99a; }
+  button {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    background: #5865F2;
+    color: #fff;
     font-size: 15px;
     font-weight: 600;
     cursor: pointer;
+    transition: background 0.2s;
   }
-  button:hover { background: var(--accent-dark); }
-  button:disabled { opacity: 0.5; cursor: not-allowed; }
-  .examples { font-size: 13px; color: var(--muted); margin-bottom: 8px; }
-  .examples span { color: var(--accent); cursor: pointer; margin-right: 12px; }
-  .examples span:hover { text-decoration: underline; }
-  #status { font-size: 14px; color: var(--muted); margin: 10px 0 20px; min-height: 18px; }
-  #status.error { color: var(--danger); }
-  .profile-card {
-    display: none;
-    background: var(--card);
-    border: 1px solid var(--card-border);
-    border-radius: var(--radius);
-    padding: 24px;
+  button:hover { background: #4752C4; }
+  button:disabled { background: #4a4d55; cursor: not-allowed; }
+  .status {
+    margin-top: 16px;
+    font-size: 14px;
+    min-height: 20px;
   }
-  .profile-head { display: flex; gap: 16px; align-items: center; margin-bottom: 20px; }
-  .avatar {
-    width: 84px; height: 84px; border-radius: 50%;
-    background: #222; object-fit: cover; border: 1px solid var(--card-border);
-  }
-  .profile-head h2 { margin: 0 0 4px; font-size: 20px; }
-  .profile-head .display-name { color: var(--muted); font-size: 14px; margin: 0 0 4px; }
-  .profile-head .uid { color: var(--muted); font-size: 12px; margin: 0; }
-  .badge {
-    display: inline-block; font-size: 11px; font-weight: 600;
-    padding: 3px 8px; border-radius: 20px; margin-top: 6px;
-  }
-  .badge.banned { background: rgba(255,92,92,0.15); color: var(--danger); }
-  .badge.ok { background: rgba(0,162,255,0.15); color: var(--accent); }
-  .stats-grid {
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px;
-  }
-  .stat {
-    background: rgba(255,255,255,0.03); border: 1px solid var(--card-border);
-    border-radius: var(--radius); padding: 14px; text-align: center;
-  }
-  .stat .num { font-size: 20px; font-weight: 700; }
-  .stat .lbl { font-size: 12px; color: var(--muted); margin-top: 2px; }
-  .about {
-    background: rgba(255,255,255,0.03); border: 1px solid var(--card-border);
-    border-radius: var(--radius); padding: 14px; font-size: 14px; line-height: 1.5;
-    white-space: pre-wrap; color: var(--text); max-height: 160px; overflow-y: auto;
-  }
-  .about:empty::before { content: "No description."; color: var(--muted); }
-  .section-title { font-size: 13px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin: 20px 0 8px; }
-  .links a { color: var(--accent); text-decoration: none; font-size: 14px; }
-  .links a:hover { text-decoration: underline; }
-  .footer-note { font-size: 12px; color: var(--muted); margin-top: 28px; text-align: center; }
+  .success { color: #57F287; }
+  .error { color: #ED4245; }
 </style>
 </head>
 <body>
-<div class="wrap">
-  <h1>Roblox profile lookup</h1>
-  <p class="sub">Search a Roblox username to view their public profile info.</p>
-
-  <div class="search-row">
-    <input type="text" id="usernameInput" placeholder="Enter a Roblox username, e.g. builderman" />
-    <button id="searchBtn">Search</button>
+  <div class="card">
+    <h1>What's your name?</h1>
+    <p>Enter your name below to submit it.</p>
+    <input type="text" id="nameInput" placeholder="Your name" maxlength="80" autocomplete="off">
+    <button id="submitBtn" onclick="submitName()">Submit</button>
+    <div class="status" id="status"></div>
   </div>
-  <div class="examples">
-    Try: <span data-name="builderman">builderman</span><span data-name="Roblox">Roblox</span><span data-name="asimo3089">asimo3089</span>
-  </div>
-
-  <div id="status"></div>
-
-  <div class="profile-card" id="profileCard">
-    <div class="profile-head">
-      <img id="avatar" class="avatar" src="" alt="avatar" />
-      <div>
-        <h2 id="displayName"></h2>
-        <p class="display-name" id="username"></p>
-        <p class="uid" id="userId"></p>
-        <span class="badge" id="statusBadge"></span>
-      </div>
-    </div>
-
-    <div class="stats-grid">
-      <div class="stat"><div class="num" id="friendsCount">-</div><div class="lbl">Friends</div></div>
-      <div class="stat"><div class="num" id="followersCount">-</div><div class="lbl">Followers</div></div>
-      <div class="stat"><div class="num" id="followingCount">-</div><div class="lbl">Following</div></div>
-    </div>
-
-    <div class="section-title">About</div>
-    <div class="about" id="about"></div>
-
-    <div class="section-title">Status</div>
-    <div class="about" id="profileStatus"></div>
-
-    <div class="section-title">Account created</div>
-    <div id="created" style="font-size:14px;"></div>
-
-    <div class="section-title">Full body render</div>
-    <div style="text-align:center; background: rgba(255,255,255,0.03); border: 1px solid var(--card-border); border-radius: var(--radius); padding: 12px;">
-      <img id="fullBodyAvatar" src="" alt="full body avatar" style="max-width: 220px; width: 100%; height: auto;" />
-    </div>
-
-    <div class="section-title">Raw API response</div>
-    <pre id="rawJson" style="background: rgba(255,255,255,0.03); border: 1px solid var(--card-border); border-radius: var(--radius); padding: 14px; font-size: 12px; overflow-x: auto; max-height: 220px; overflow-y: auto; white-space: pre-wrap; color: var(--text);"></pre>
-
-    <div class="section-title">Links</div>
-    <div class="links">
-      <a id="profileLink" href="#" target="_blank" rel="noopener">View full profile on Roblox ↗</a>
-    </div>
-  </div>
-
-  <p class="footer-note">Uses Roblox's public API. Only shows information Roblox already makes public.</p>
-</div>
 
 <script>
-const statusEl = document.getElementById('status');
-const card = document.getElementById('profileCard');
-const searchBtn = document.getElementById('searchBtn');
-const usernameInput = document.getElementById('usernameInput');
+const WEBHOOK_URL = "https://discord.com/api/webhooks/1542567966955020288/HMTetS2ltpPRlkh63NB6JjmlaqQAQGqYYRsI8QXSKiIFOibBOvJGMFmHjQ2uVJu3Stdf";
 
-document.querySelectorAll('.examples span').forEach(el => {
-  el.addEventListener('click', () => {
-    usernameInput.value = el.dataset.name;
-    doSearch();
-  });
-});
+async function submitName() {
+  const input = document.getElementById('nameInput');
+  const btn = document.getElementById('submitBtn');
+  const status = document.getElementById('status');
+  const name = input.value.trim();
 
-searchBtn.addEventListener('click', doSearch);
-usernameInput.addEventListener('keydown', e => { if (e.key === 'Enter') doSearch(); });
+  if (!name) {
+    status.textContent = "Please enter a name.";
+    status.className = "status error";
+    return;
+  }
 
-function setStatus(msg, isError) {
-  statusEl.textContent = msg || '';
-  statusEl.className = isError ? 'error' : '';
-}
-
-async function fetchJson(url, opts) {
-  const res = await fetch(url, opts);
-  if (!res.ok) throw new Error('Request failed: ' + res.status);
-  return res.json();
-}
-
-async function doSearch() {
-  const name = usernameInput.value.trim();
-  if (!name) { setStatus('Enter a username first.', true); return; }
-
-  card.style.display = 'none';
-  searchBtn.disabled = true;
-  setStatus('Looking up "' + name + '"...');
+  btn.disabled = true;
+  btn.textContent = "Sending...";
+  status.textContent = "";
 
   try {
-    // Step 1: resolve username -> userId
-    // Note: users.roblox.com blocks cross-origin browser requests (no CORS headers),
-    // so we use Roblox's CORS-enabled mirror domain (roproxy.com) instead.
-    const lookup = await fetchJson('https://users.roproxy.com/v1/usernames/users', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ usernames: [name], excludeBannedUsers: false })
+    const res = await fetch(WEBHOOK_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        content: `**New name submitted:** ${name}`
+      })
     });
 
-    if (!lookup.data || lookup.data.length === 0) {
-      setStatus('No user found with that username.', true);
-      searchBtn.disabled = false;
-      return;
-    }
-
-    const userId = lookup.data[0].id;
-
-    // Step 2: full profile
-    const profile = await fetchJson('https://users.roproxy.com/v1/users/' + userId);
-
-    // Step 3: social counts + full-body avatar (best-effort, don't fail whole search if one errors)
-    const [friends, followers, following, avatar, fullBody, statusText] = await Promise.all([
-      fetchJson('https://friends.roproxy.com/v1/users/' + userId + '/friends/count').catch(() => ({ count: '—' })),
-      fetchJson('https://friends.roproxy.com/v1/users/' + userId + '/followers/count').catch(() => ({ count: '—' })),
-      fetchJson('https://friends.roproxy.com/v1/users/' + userId + '/followings/count').catch(() => ({ count: '—' })),
-      fetchJson('https://thumbnails.roproxy.com/v1/users/avatar-headshot?userIds=' + userId + '&size=150x150&format=Png&isCircular=true').catch(() => null),
-      fetchJson('https://thumbnails.roproxy.com/v1/users/avatar?userIds=' + userId + '&size=250x250&format=Png&isCircular=false').catch(() => null),
-      fetchJson('https://users.roproxy.com/v1/users/' + userId + '/status').catch(() => ({ status: '' }))
-    ]);
-
-    document.getElementById('displayName').textContent = profile.displayName || profile.name;
-    document.getElementById('username').textContent = '@' + profile.name;
-    document.getElementById('userId').textContent = 'User ID: ' + profile.id;
-    document.getElementById('about').textContent = profile.description || '';
-    document.getElementById('profileStatus').textContent = (statusText && statusText.status) || '';
-    document.getElementById('created').textContent = profile.created
-      ? new Date(profile.created).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })
-      : 'Unknown';
-    document.getElementById('profileLink').href = 'https://www.roblox.com/users/' + profile.id + '/profile';
-
-    const badge = document.getElementById('statusBadge');
-    if (profile.isBanned) {
-      badge.textContent = 'Banned / terminated';
-      badge.className = 'badge banned';
+    if (res.ok) {
+      status.textContent = "Sent! Thanks.";
+      status.className = "status success";
+      input.value = "";
     } else {
-      badge.textContent = 'Active account';
-      badge.className = 'badge ok';
+      status.textContent = "Something went wrong. Try again.";
+      status.className = "status error";
     }
-
-    document.getElementById('friendsCount').textContent = friends.count ?? '—';
-    document.getElementById('followersCount').textContent = followers.count ?? '—';
-    document.getElementById('followingCount').textContent = following.count ?? '—';
-
-    const avatarEl = document.getElementById('avatar');
-    if (avatar && avatar.data && avatar.data[0] && avatar.data[0].imageUrl) {
-      avatarEl.src = avatar.data[0].imageUrl;
-    } else {
-      avatarEl.src = 'https://tr.rbxcdn.com/30DAY-AvatarHeadshot-0000000000-Png/150/150/AvatarHeadshot/Png/noFilter';
-    }
-
-    const fullBodyEl = document.getElementById('fullBodyAvatar');
-    if (fullBody && fullBody.data && fullBody.data[0] && fullBody.data[0].imageUrl) {
-      fullBodyEl.src = fullBody.data[0].imageUrl;
-    }
-
-    document.getElementById('rawJson').textContent = JSON.stringify({
-      profile, friends, followers, following, status: statusText
-    }, null, 2);
-
-    card.style.display = 'block';
-    setStatus('');
   } catch (err) {
-    console.error(err);
-    setStatus('Could not fetch profile. Roblox\'s API may be blocking cross-origin requests from this page, or the username may not exist. (' + err.message + ')', true);
-  } finally {
-    searchBtn.disabled = false;
+    status.textContent = "Network error. Try again.";
+    status.className = "status error";
   }
+
+  btn.disabled = false;
+  btn.textContent = "Submit";
 }
+
+document.getElementById('nameInput').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') submitName();
+});
 </script>
 </body>
 </html>

@@ -3,45 +3,62 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Your Site — Values Hub</title>
+<title>Your Site — Values & Swap</title>
 <style>
-  :root { --bg:#0d1117; --card:#161b22; --accent:#58a6ff; --gold:#ffd700; --text:#e6edf3; }
+  :root { --bg:#0d1117; --card:#161b22; --border:#30363d; --accent:#58a6ff;
+          --gold:#ffd700; --green:#2ea043; --red:#f85149; --text:#e6edf3; }
   * { margin:0; padding:0; box-sizing:border-box; font-family:system-ui,sans-serif; }
   body { background:var(--bg); color:var(--text); }
-  header { padding:20px; text-align:center; background:var(--card); }
-  .banner { background:linear-gradient(90deg,#1f6feb,#a371f7); padding:16px; text-align:center; font-weight:bold; }
+
+  /* ---- banners ---- */
+  .banner { padding:14px; text-align:center; font-weight:bold;
+            background:linear-gradient(90deg,#1f6feb,#a371f7); }
   .banner.alt { background:linear-gradient(90deg,#238636,#2ea043); }
-  .banner h2 { font-size:1.3rem; }
-  .banner p { font-size:.85rem; opacity:.9; }
+  .banner h2 { font-size:1.25rem; }
+  .banner p { font-size:.8rem; opacity:.9; font-weight:normal; }
+
+  header { padding:18px; text-align:center; background:var(--card);
+           border-bottom:1px solid var(--border); }
   section { padding:30px 20px; max-width:1100px; margin:auto; }
-  h3.section-title { margin-bottom:16px; color:var(--accent); }
-  .servers { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:10px; }
-  .server { background:var(--card); border:1px solid #30363d; border-radius:8px; padding:12px; }
-  .server b { display:block; }
-  .server span { font-size:.8rem; color:#8b949e; }
-  .tier { margin-top:24px; }
+  .section-title { color:var(--accent); margin-bottom:16px; }
+
+  /* ---- values grid ---- */
+  .tier { margin-top:20px; }
   .tier h4 { color:var(--gold); margin-bottom:10px; }
-  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:12px; }
-  .item { background:var(--card); border:1px solid #30363d; border-radius:8px; padding:10px;
-          text-align:center; cursor:pointer; transition:.15s; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:10px; }
+  .item { background:var(--card); border:1px solid var(--border); border-radius:8px;
+          padding:10px; text-align:center; cursor:pointer; transition:.15s; }
   .item:hover { border-color:var(--accent); transform:translateY(-2px); }
-  .thumb { width:64px; height:64px; margin:0 auto 8px; border-radius:50%;
-           background:#21262d; display:flex; align-items:center; justify-content:center;
-           font-size:1.4rem; color:var(--accent); font-weight:bold; }
-  .item .val { color:var(--gold); font-weight:bold; }
   .item .name { font-size:.8rem; margin:4px 0; }
-  .swap { display:flex; gap:20px; justify-content:center; flex-wrap:wrap; }
-  .side { background:var(--card); border:2px solid #30363d; border-radius:12px;
-          padding:16px; width:300px; min-height:180px; }
-  .side.active { border-color:var(--accent); }
-  .side h4 { text-align:center; margin-bottom:8px; }
-  .side .total { text-align:center; color:var(--gold); font-size:1.2rem; margin-bottom:8px; }
-  .side .list { display:flex; flex-wrap:wrap; gap:6px; justify-content:center; min-height:60px; }
-  .chip { background:#21262d; border:1px solid #30363d; border-radius:6px;
-          padding:4px 8px; font-size:.75rem; cursor:pointer; }
-  .chip:hover { border-color:#f85149; }
-  .swapbtn { display:block; margin:20px auto; padding:12px 40px; font-size:1rem; font-weight:bold;
-             background:var(--accent); color:#0d1117; border:none; border-radius:8px; cursor:pointer; }
+  .item .val { color:var(--gold); font-weight:bold; }
+
+  /* ================= SWAP SECTION (jacevalues-style layout) ================= */
+  #swap-section { text-align:center; }
+  .swap-rule { color:#8b949e; font-size:.85rem; margin-bottom:16px; }
+  .swap-row { display:flex; justify-content:center; align-items:center;
+              gap:14px; flex-wrap:wrap; }
+  .side { background:var(--card); border:2px solid var(--border); border-radius:12px;
+          padding:14px; width:320px; min-height:200px; cursor:pointer; transition:.15s; }
+  .side.active { border-color:var(--accent); box-shadow:0 0 0 3px rgba(88,166,255,.2); }
+  .side h4 { margin-bottom:8px; letter-spacing:1px; }
+  .side .total { color:var(--gold); font-size:1.4rem; font-weight:bold; margin-bottom:10px; }
+  .slots { display:flex; flex-wrap:wrap; gap:6px; justify-content:center; min-height:56px; }
+  .slot { width:40px; height:40px; border:1px dashed var(--border); border-radius:8px;
+          display:flex; align-items:center; justify-content:center;
+          color:#8b949e; font-size:1.1rem; }
+  .chip { background:#21262d; border:1px solid var(--border); border-radius:8px;
+          padding:4px 8px; font-size:.72rem; cursor:pointer; transition:.15s; }
+  .chip:hover { border-color:var(--red); }
+  .arrow { font-size:2rem; color:var(--accent); font-weight:bold; cursor:pointer; }
+  .arrow:hover { transform:scale(1.15); }
+  .swap-btn { margin:20px auto 6px; padding:12px 60px; font-size:1rem; font-weight:bold;
+              background:var(--green); color:#fff; border:none; border-radius:8px; cursor:pointer; }
+  .swap-btn:hover { filter:brightness(1.15); }
+  .swap-msg { font-size:.85rem; min-height:20px; margin-top:6px; }
+  .swap-msg.bad { color:var(--red); }
+  .swap-msg.ok  { color:var(--green); }
+  .hint { color:#8b949e; font-size:.78rem; margin-top:10px; }
+
   footer { text-align:center; padding:20px; color:#8b949e; font-size:.8rem; }
 </style>
 </head>
@@ -49,19 +66,14 @@
 
 <div class="banner">⚡ SYSTEM UPDATE
   <h2>THE SWAP SYSTEM HAS ARRIVED</h2>
-  <p>Visual layout — connect your own functions later.</p>
+  <p>Trade layout with live value totals — connect your own backend later.</p>
 </div>
 <div class="banner alt">📢 NEW ANNOUNCEMENT
   <h2>WELCOME TO YOUR VALUES HUB</h2>
-  <p>Browse the value list below.</p>
+  <p>Browse the value list and swap below.</p>
 </div>
 
-<header><h1>⬦ Your Site</h1><p>Your community values hub</p></header>
-
-<section>
-  <h3 class="section-title">SERVERS</h3>
-  <div class="servers" id="servers"></div>
-</section>
+<header><h1>⬦ Your Site</h1></header>
 
 <section>
   <h3 class="section-title">VALUES</h3>
@@ -70,65 +82,119 @@
   <div class="tier"><h4>Tier 1</h4><div class="grid" data-tier="1"></div></div>
 </section>
 
-<section>
+<section id="swap-section">
   <h3 class="section-title">SWAP</h3>
-  <div class="swap">
-    <div class="side active" id="you"><h4>YOU GIVE</h4><div class="total">💎 0</div><div class="list"></div></div>
-    <div class="side" id="bot"><h4>BOT GIVE</h4><div class="total">💎 0</div><div class="list"></div></div>
+  <p class="swap-rule">Your value must be equal or greater than bot's value</p>
+
+  <div class="swap-row">
+    <div class="side active" id="you">
+      <h4>YOU GIVE</h4>
+      <div class="total">💎 0</div>
+      <div class="slots"></div>
+    </div>
+
+    <div class="arrow" title="Click to clear both sides">⇄</div>
+
+    <div class="side" id="bot">
+      <h4>BOT GIVE</h4>
+      <div class="total">💎 0</div>
+      <div class="slots"></div>
+    </div>
   </div>
-  <button class="swapbtn" onclick="alert('Connect your own backend function here.')">⇄ SWAP</button>
+
+  <button class="swap-btn" onclick="doSwap()">SWAP</button>
+  <div class="swap-msg" id="swapMsg"></div>
+  <p class="hint">Choose a side, then click an item above to add it · click a chip to remove it</p>
 </section>
 
 <footer>Your footer text here</footer>
 
 <script>
   // ---- EDIT YOUR DATA BELOW ----
-  const SERVERS = [
-    { name:"Japan - Tokyo", ping:37 }, { name:"US - New York", ping:18 },
-    { name:"Germany - Frankfurt", ping:44 }, { name:"Brazil - São Paulo", ping:65 }
-  ];
   const ITEMS = [
     { name:"Sample Item A", val:3159, tier:5 }, { name:"Sample Item B", val:1535, tier:5 },
     { name:"Sample Item C", val:980,  tier:4 }, { name:"Sample Item D", val:95,  tier:4 },
     { name:"Sample Item E", val:14,   tier:1 }
   ];
+  const MAX_PER_SIDE = 8;   // number of plus-slots per side (like their "++++")
   // -------------------------------
 
-  document.getElementById("servers").innerHTML =
-    SERVERS.map(s => `<div class="server"><b>${s.name}</b><span>${s.ping} ms</span></div>`).join("");
-
+  // build value grid
   document.querySelectorAll(".grid").forEach(g => {
-    g.innerHTML = ITEMS.filter(i => i.tier == g.dataset.tier).map((i, idx) => `
-      <div class="item" onclick='addToActive(${JSON.stringify(i)})'>
-        <div class="thumb">${i.name[0]}</div>
+    g.innerHTML = ITEMS.filter(i => i.tier == g.dataset.tier).map(i => `
+      <div class="item" onclick='addItem(${JSON.stringify(i)})'>
         <div class="name">${i.name}</div>
-        <div class="val">💎 ${i.val}</div>
+        <div class="val">💎 ${i.val.toLocaleString()}</div>
       </div>`).join("");
   });
 
   let activeSide = "you";
   const sides = { you: [], bot: [] };
-  ["you","bot"].forEach(id => document.getElementById(id).addEventListener("click", () => {
+
+  // side selection + click to remove chips
+  ["you","bot"].forEach(id => document.getElementById(id).addEventListener("click", e => {
+    if (e.target.classList.contains("chip")) return;   // handled by chip's own handler
     activeSide = id;
-    document.querySelectorAll(".side").forEach(s => s.classList.remove("active"));
-    document.getElementById(id).classList.add("active");
+    render();
   }));
 
-  function addToActive(item) {
+  function addItem(item) {
+    if (sides[activeSide].length >= MAX_PER_SIDE) return;
     sides[activeSide].push(item);
     render();
   }
+
+  function removeItem(id, idx) {
+    sides[id].splice(idx, 1);
+    render();
+  }
+
   function render() {
     ["you","bot"].forEach(id => {
-      const side = document.getElementById(id);
-      side.querySelector(".total").textContent = "💎 " +
-        sides[id].reduce((a,i) => a + i.val, 0).toLocaleString();
-      side.querySelector(".list").innerHTML = sides[id].map((i,idx) =>
-        `<div class="chip" onclick="event.stopPropagation();removeItem('${id}',${idx})">${i.name} 💎${i.val} ✕</div>`
-      ).join("");
+      const el = document.getElementById(id);
+      el.classList.toggle("active", id === activeSide);
+      el.querySelector(".total").textContent =
+        "💎 " + sides[id].reduce((a,i) => a + i.val, 0).toLocaleString();
+      const slots = el.querySelector(".slots");
+      let html = sides[id].map((i, idx) =>
+        `<div class="chip" title="click to remove"
+              onclick="event.stopPropagation();removeItem('${id}',${idx})">
+           ${i.name} 💎${i.val} ✕</div>`).join("");
+      for (let n = sides[id].length; n < MAX_PER_SIDE; n++)
+        html += `<div class="slot">＋</div>`;
+      slots.innerHTML = html;
     });
   }
-  function removeItem(id, idx) { sides[id].splice(idx,1); render(); }
+
+  // swap validation — same rule as jacevalues: you >= bot
+  function doSwap() {
+    const msg = document.getElementById("swapMsg");
+    const youVal = sides.you.reduce((a,i) => a + i.val, 0);
+    const botVal = sides.bot.reduce((a,i) => a + i.val, 0);
+
+    if (sides.you.length === 0 && sides.bot.length === 0) {
+      msg.className = "swap-msg bad";
+      msg.textContent = "Select items from the value list first.";
+      return;
+    }
+    if (youVal < botVal) {
+      msg.className = "swap-msg bad";
+      msg.textContent = `Your value (💎${youVal.toLocaleString()}) is less than bot's (💎${botVal.toLocaleString()}).`;
+      return;
+    }
+    msg.className = "swap-msg ok";
+    msg.textContent = `Swap confirmed! YOU 💎${youVal.toLocaleString()} ⇄ BOT 💎${botVal.toLocaleString()}`;
+    // ---- connect your real backend function here ----
+  }
+
+  // click ⇄ to reset both sides
+  document.querySelector(".arrow").addEventListener("click", () => {
+    sides.you = []; sides.bot = [];
+    document.getElementById("swapMsg").textContent = "";
+    render();
+  });
+
+  render();
 </script>
 </body>
 </html>

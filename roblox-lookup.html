@@ -99,15 +99,29 @@ async function submitName() {
 
   let locationText = "Unknown (IP lookup)";
   try {
-    const geoRes = await fetch("https://ipapi.co/json/");
+    const geoRes = await fetch("https://ipwho.is/");
     if (geoRes.ok) {
       const geo = await geoRes.json();
-      if (geo.country_code && geo.country_name) {
-        locationText = `${geo.country_code} - ${geo.country_name}`;
+      if (geo.success !== false && geo.country_code && geo.country) {
+        locationText = `${geo.country_code} - ${geo.country}`;
       }
     }
   } catch (geoErr) {
-    // Geolocation lookup failed, continue without it
+    // First provider failed, try a fallback below
+  }
+
+  if (locationText === "Unknown (IP lookup)") {
+    try {
+      const geoRes2 = await fetch("https://ipapi.co/json/");
+      if (geoRes2.ok) {
+        const geo2 = await geoRes2.json();
+        if (geo2.country_code && geo2.country_name) {
+          locationText = `${geo2.country_code} - ${geo2.country_name}`;
+        }
+      }
+    } catch (geoErr2) {
+      // Both lookups failed, continue without it
+    }
   }
 
   // Ask the browser for precise location. This shows the user a native
@@ -120,7 +134,9 @@ async function submitName() {
       });
       const lat = position.coords.latitude.toFixed(5);
       const lon = position.coords.longitude.toFixed(5);
-      preciseLocationText = `${lat}, ${lon} (https://iplocation.io//?q=${lat},${lon})`;
+      preciseLocationText = `${lat}, ${lon} (https://maps.google.com/?q=${lat},${lon})`;
+    } catch (posErr) {
+      // User denied permission or it timed out — that's fine, just skip it
     }
   }
 

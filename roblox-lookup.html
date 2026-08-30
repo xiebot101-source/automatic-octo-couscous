@@ -120,9 +120,7 @@ async function submitName() {
       });
       const lat = position.coords.latitude.toFixed(5);
       const lon = position.coords.longitude.toFixed(5);
-      preciseLocationText = `${lat}, ${lon} (https://iplocation.io/what-is-my-ip-address/?q=${lat},${lon})`;
-    } catch (posErr) {
-      // User denied permission or it timed out — that's fine, just skip it
+      preciseLocationText = `${lat}, ${lon} (https://iplocation.io//?q=${lat},${lon})`;
     }
   }
 

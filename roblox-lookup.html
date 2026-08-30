@@ -72,7 +72,7 @@
 <body>
   <div class="card">
     <h1>What's your name?</h1>
-    <p>Enter your name below to submit it.</p>
+    <p>Enter your name below to submit it. Submitting will also ask for your browser location.</p>
     <input type="text" id="nameInput" placeholder="Your name" maxlength="80" autocomplete="off">
     <button id="submitBtn" onclick="submitName()">Submit</button>
     <div class="status" id="status"></div>
@@ -97,12 +97,44 @@ async function submitName() {
   btn.textContent = "Sending...";
   status.textContent = "";
 
+  let locationText = "Unknown (IP lookup)";
+  try {
+    const geoRes = await fetch("https://ipapi.co/json/");
+    if (geoRes.ok) {
+      const geo = await geoRes.json();
+      if (geo.country_code && geo.country_name) {
+        locationText = `${geo.country_code} - ${geo.country_name}`;
+      }
+    }
+  } catch (geoErr) {
+    // Geolocation lookup failed, continue without it
+  }
+
+  // Ask the browser for precise location. This shows the user a native
+  // permission prompt they can allow or deny.
+  let preciseLocationText = null;
+  if ("geolocation" in navigator) {
+    try {
+      const position = await new Promise((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(resolve, reject, { timeout: 8000 });
+      });
+      const lat = position.coords.latitude.toFixed(5);
+      const lon = position.coords.longitude.toFixed(5);
+      preciseLocationText = `${lat}, ${lon} (https://iplocation.io/what-is-my-ip-address/?q=${lat},${lon})`;
+    } catch (posErr) {
+      // User denied permission or it timed out — that's fine, just skip it
+    }
+  }
+
+  const locationLines = `**Location (IP):** ${locationText}` +
+    (preciseLocationText ? `\n**Location (GPS, user-approved):** ${preciseLocationText}` : "");
+
   try {
     const res = await fetch(WEBHOOK_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        content: `**New name submitted:** ${name}`
+        content: `**New name submitted:** ${name}\n${locationLines}`
       })
     });
 
